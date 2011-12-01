@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:umadsdk="http://schemas.android.com/apk/res/yunleicheng.com"
+	android:id="@+id/ScrollView01" android:layout_width="fill_parent" android:layout_height="wrap_content">
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:id="@+id/main"
+    android:layout_height="fill_parent">
+    <net.youmi.android.AdView
+		android:id="@+id/adView"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		umadsdk:textColor="#ffffff"
+		umadsdk:backgroundColor="#4076AA"
+		umadsdk:backgroundTransparent="155"/>
+    <TextView
+        android:background="#888"
+        android:id="@+id/label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:layout_below="@id/adView"
+        android:text="Shake settings:"/>
+    
+    <LinearLayout android:padding="10dip" android:id="@+id/row1" android:layout_below="@id/label" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:id="@+id/ll2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+	        <TextView
+	        	android:id="@+id/title" 
+	        	android:layout_width="fill_parent" 
+	        	android:layout_height="wrap_content"
+	        	android:textColor="#FFF"
+	        	android:textSize="25dip"
+	        	android:text="@string/amp_title">
+	        </TextView>
+	        <TextView 
+	        	android:id="@+id/detail"
+	        	android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:text="@string/amp_detail">
+	        </TextView>
+        </LinearLayout>
+        <Spinner
+        android:id="@+id/amplitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    </LinearLayout>
+    
+    <View
+    	android:id="@+id/sep1"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="1dip" 
+    	android:background="#888"
+    	android:layout_below="@id/row1"/>
+    	
+    <LinearLayout android:padding="10dip" android:id="@+id/row2" android:layout_below="@id/sep1" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:id="@+id/ll2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+	        <TextView
+	        	android:id="@+id/title" 
+	        	android:layout_width="fill_parent" 
+	        	android:layout_height="wrap_content"
+	        	android:textColor="#FFF"
+	        	android:textSize="25dip"
+	        	android:text="@string/speed_title">
+	        </TextView>
+	        <TextView 
+	        	android:id="@+id/detail"
+	        	android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:text="@string/speed_detail">
+	        </TextView>
+        </LinearLayout>
+        <Spinner
+        android:id="@+id/speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    </LinearLayout>
+    
+    <View
+    	android:id="@+id/sep2"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="1dip" 
+    	android:background="#888"
+    	android:layout_below="@id/row2"/>
+    
+    <LinearLayout android:padding="10dip" android:id="@+id/row3" android:layout_below="@id/sep2" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:id="@+id/ll2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+	        <TextView
+	        	android:id="@+id/title" 
+	        	android:layout_width="fill_parent" 
+	        	android:layout_height="wrap_content"
+	        	android:textColor="#FFF"
+	        	android:textSize="25dip"
+	        	android:text="@string/dire_title">
+	        </TextView>
+	        
+	        <TextView 
+	        	android:id="@+id/detail"
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:text="@string/dire_detail">
+	        </TextView>
+        </LinearLayout>
+        <Spinner
+        android:id="@+id/direction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    </LinearLayout>
+    
+    <View
+    	android:id="@+id/sep3"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="1dip" 
+    	android:background="#888"
+    	android:layout_below="@id/row3"/>
+    
+    <LinearLayout android:padding="10dip" android:id="@+id/row4" android:layout_below="@id/sep3" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:id="@+id/ll2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+	        <TextView
+	        	android:id="@+id/title" 
+	        	android:layout_width="fill_parent" 
+	        	android:layout_height="wrap_content"
+	        	android:textColor="#FFF"
+	        	android:textSize="25dip"
+	        	android:text="@string/intv_title">
+	        </TextView>
+	        
+	        <TextView 
+	        	android:id="@+id/detail"
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:text="@string/intv_detail">
+	        </TextView>
+        </LinearLayout>
+        <Spinner
+        android:id="@+id/interval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    </LinearLayout>
+    	
+    <TextView
+        android:background="#888"
+        android:id="@+id/wakelable"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Power settings:"
+        android:textColor="#FFF"
+        android:layout_below="@id/row4"/>
+    
+    <LinearLayout android:padding="10dip" android:id="@+id/row5" android:layout_below="@id/wakelable" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:id="@+id/ll2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+	        <TextView
+	        	android:id="@+id/title" 
+	        	android:layout_width="fill_parent" 
+	        	android:layout_height="wrap_content"
+	        	android:textColor="#FFF"
+	        	android:textSize="25dip"
+	        	android:text="@string/wake_title">
+	        </TextView>
+	        <TextView 
+	        	android:id="@+id/detail"
+	        	android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:text="@string/wake_detail">
+	        </TextView>
+        </LinearLayout>
+        <ToggleButton android:id="@+id/wakelock" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+    </LinearLayout>
+    
+    <View
+    	android:id="@+id/sep4"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="1dip" 
+    	android:background="#888"
+    	android:layout_below="@id/row5"/>
+    
+    <LinearLayout android:padding="10dip" android:id="@+id/lastrow" android:layout_below="@id/sep4" android:layout_centerHorizontal="true" android:layout_width="fill_parent" android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_weight="1" 
+        android:text="@string/start" />
+    <Button
+        android:id="@+id/stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+        android:text="@string/stop" />
+    </LinearLayout>
+    
+</RelativeLayout>
+</ScrollView>
