@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 
 public class LockScreen extends DeviceAdminReceiver{
-	
+	//This is a comment
 
 	public static class Controller extends Activity{
 
