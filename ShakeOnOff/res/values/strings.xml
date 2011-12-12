@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ShakeOnOff</string>
+<!--     <string name="amp_title">Amplitude</string>
+    <string name="amp_detail">The amplitude of shake</string>
+    <string name="speed_title">Speed</string>
+    <string name="speed_detail">Shake speed to turn on/off screen</string>
+    <string name="dire_title">Direction</string>
+    <string name="dire_detail">Shake direction to turn on/off screen</string>
+    <string name="intv_title">Interval</string>
+    <string name="intv_detail">No action interval time between shakes</string>
+    <string name="wake_title">WakeLock</string>
+    <string name="wake_detail">When this is on, the shake on will always work, but consume more power</string>
+    <string name="start">START</string>
+    <string name="start_hint">Service started, now you can shake your droid to turn on/off screen.</string>
+    <string name="stop">STOP</string>
+    <string name="stop_hint">ShakeOnOff stopped.</string>
+    <string name="serviceHint">Click STOP button to stop ShakeOnOff</string>
+    <string name="notSupport">This application needs acceleration sensor</string>
+    
+    <string-array name="shake_amp">
+    	<item>Large</item>
+    	<item>Medium</item>
+    	<item>Small</item>
+    </string-array>
+    
+    <string-array name="shake_speed">
+    	<item>Fly</item>
+    	<item>Fast</item>
+    	<item>Normal</item>
+    	<item>Slow</item>
+    </string-array>
+    
+    <string-array name="shake_direction">
+    	<item>Left to Right</item>
+	    <item>Right to Left</item>
+	</string-array>
+    
+    <string-array name="shake_interval">
+    	<item>1 sec</item>
+    	<item>2 sec</item>
+    	<item>3 sec</item>
+    	<item>4 sec</item>
+    </string-array> -->
+    
+    <string name="amp_title">幅度</string>
+    <string name="amp_detail">晃动的幅度大小</string>
+    <string name="speed_title">速度</string>
+    <string name="speed_detail">打开/关闭屏幕的晃动速度</string>
+    <string name="dire_title">方向</string>
+    <string name="dire_detail">打开/关闭屏幕的晃动方向</string>
+    <string name="intv_title">时间间隔</string>
+    <string name="intv_detail">晃动打开/关闭并幕后，指定时间间隔内不能再次打开/关闭屏幕</string>
+    <string name="wake_title">睡眠锁</string>
+    <string name="wake_detail">打开后可保证晃动打开屏幕，但是会消耗更多电量。关闭后只能保证晃动锁屏，晃动打开屏幕有可能无反应</string>
+    <string name="start">开始</string>
+    <string name="start_hint">程序已运行，现在可测试晃动开屏锁屏。</string>
+    <string name="stop">停止</string>
+    <string name="stop_hint">ShakeOnOff已停止</string>
+    <string name="serviceHint">点击停止按钮关闭ShakeOnOff</string>
+    <string name="notSupport">此程序需要加速传感器</string>
+    
+    <string-array name="shake_amp">
+    	<item>大</item>
+    	<item>中</item>
+    	<item>小</item>
+    </string-array>
+    
+    <string-array name="shake_speed">
+    	<item>飞速</item>
+    	<item>快速</item>
+    	<item>正常</item>
+    	<item>慢速</item>
+    </string-array>
+    
+    <string-array name="shake_direction">
+    	<item>由左至右</item>
+	    <item>由右至左</item>
+	</string-array>
+    
+    <string-array name="shake_interval">
+    	<item>1秒</item>
+    	<item>2秒</item>
+    	<item>3秒</item>
+    	<item>4秒</item>
+    </string-array>
+</resources>
