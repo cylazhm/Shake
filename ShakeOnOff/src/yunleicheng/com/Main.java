@@ -3,9 +3,14 @@ package yunleicheng.com;
 import yunleicheng.com.consts.Consts;
 import net.youmi.android.AdManager;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -31,6 +36,47 @@ public class Main extends Activity {
 	
 	static{
 		AdManager.init("a8b65eb7305a6bbc", "4ef84ff66cd340f7", 30, false);
+	}
+	
+	//Create menu
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0,1,1,R.string.menu0);
+		menu.add(0,2,2,R.string.menu1);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	//Create menu click listener
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int title = 0;
+		int message = 0;
+		int button = 0;
+		if(item.getItemId()==1){
+			title = R.string.uninstall_title;
+			message = R.string.uninstall_message;
+			button = R.string.uninstall_button;
+		}
+		
+		else{
+			title = R.string.power_title;
+			message = R.string.power_message;
+			button = R.string.power_button;
+		}
+		
+		Dialog dlg = new AlertDialog.Builder(Main.this)
+		.setTitle(title)
+		.setMessage(message)
+		.setPositiveButton(button, new DialogInterface.OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface dialog, int arg1) {
+				dialog.cancel();
+			}
+		}).create();
+		dlg.show();
+		
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override

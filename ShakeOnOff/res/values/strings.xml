@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ShakeOnOff</string>
-<!--     <string name="amp_title">Amplitude</string>
+<!--     
+	<string name="uninstall_button">OK</string>
+	<string name="uninstall_message"></string>
+	<string name="uninstall_title">Uninstall Explaination</string>
+	<string name="menu0">Uninstall Explaination</string>
+	<string name="amp_title">Amplitude</string>
     <string name="amp_detail">The amplitude of shake</string>
     <string name="speed_title">Speed</string>
     <string name="speed_detail">Shake speed to turn on/off screen</string>
@@ -43,6 +48,14 @@
     	<item>4 sec</item>
     </string-array> -->
     
+    <string name="power_button">确定</string>
+    <string name="power_message">打开晃动开屏会禁止手机睡眠，所有手机运行的软件都会消耗电量，请慎用。</string>
+    <string name="power_title">耗电说明</string>
+    <string name="uninstall_button">确定</string>
+    <string name="uninstall_message">卸载此应用前，请在桌面点击“菜单->设置->安全->选择设备管理器”，取消勾选ShakeOnOff</string>
+    <string name="uninstall_title">卸载说明</string>
+    <string name="menu0">卸载说明</string>
+    <string name="menu1">耗电说明</string>
     <string name="amp_title">幅度</string>
     <string name="amp_detail">晃动的幅度大小</string>
     <string name="speed_title">速度</string>
