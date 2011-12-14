@@ -49,13 +49,13 @@
     </string-array> -->
     
     <string name="power_button">确定</string>
-    <string name="power_message">打开晃动开屏会禁止手机睡眠，所有手机运行的软件都会消耗电量，请慎用。</string>
+    <string name="power_message">打开晃动开屏会禁止手机睡眠，所有手机运行的软件都不会转入睡眠而持续消耗电量，请慎用。</string>
     <string name="power_title">耗电说明</string>
     <string name="uninstall_button">确定</string>
     <string name="uninstall_message">卸载此应用前，请在桌面点击“菜单->设置->安全->选择设备管理器”，取消勾选ShakeOnOff</string>
     <string name="uninstall_title">卸载说明</string>
     <string name="menu0">卸载说明</string>
-    <string name="menu1">耗电说明</string>
+    <string name="menu1">其他应用</string>
     <string name="amp_title">幅度</string>
     <string name="amp_detail">晃动的幅度大小</string>
     <string name="speed_title">速度</string>

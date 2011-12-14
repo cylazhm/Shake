@@ -1,7 +1,10 @@
 package yunleicheng.com;
 
+import com.waps.AdView;
+import com.waps.AppConnect;
+import com.waps.UpdatePointsNotifier;
+
 import yunleicheng.com.consts.Consts;
-import net.youmi.android.AdManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,11 +22,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class Main extends Activity {
+public class Main extends Activity implements UpdatePointsNotifier {
 	Spinner ampl = null;
 	Spinner speed = null;
 	Spinner direction = null;
@@ -33,10 +37,6 @@ public class Main extends Activity {
 	
 	Button startService = null;
 	Button stopService = null;
-	
-	static{
-		AdManager.init("a8b65eb7305a6bbc", "4ef84ff66cd340f7", 30, false);
-	}
 	
 	//Create menu
 	@Override
@@ -56,26 +56,23 @@ public class Main extends Activity {
 			title = R.string.uninstall_title;
 			message = R.string.uninstall_message;
 			button = R.string.uninstall_button;
+			Dialog dlg = new AlertDialog.Builder(Main.this)
+			.setTitle(title)
+			.setMessage(message)
+			.setPositiveButton(button, new DialogInterface.OnClickListener(){
+
+				@Override
+				public void onClick(DialogInterface dialog, int arg1) {
+					dialog.cancel();
+				}
+			}).create();
+			dlg.show();
 		}
 		
 		else{
-			title = R.string.power_title;
-			message = R.string.power_message;
-			button = R.string.power_button;
+			AppConnect.getInstance(this).showOffers(this);
 		}
-		
-		Dialog dlg = new AlertDialog.Builder(Main.this)
-		.setTitle(title)
-		.setMessage(message)
-		.setPositiveButton(button, new DialogInterface.OnClickListener(){
 
-			@Override
-			public void onClick(DialogInterface dialog, int arg1) {
-				dialog.cancel();
-			}
-		}).create();
-		dlg.show();
-		
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -84,6 +81,8 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		AppConnect.getInstance(this);
+		
 		ampl = (Spinner)findViewById(R.id.amplitude);
 		speed = (Spinner)findViewById(R.id.speed);
 		direction = (Spinner)findViewById(R.id.direction);
@@ -241,6 +240,9 @@ public class Main extends Activity {
 				Toast.makeText(Main.this, R.string.stop_hint, Toast.LENGTH_SHORT).show();
 			}
 		});
+		AppConnect.getInstance(this).getPoints(this);
+		LinearLayout container =(LinearLayout)findViewById(R.id.adView);
+		new AdView(this,container).DisplayAd(20);
 	}
 	
 	private void setSpinner(Spinner s, String[] items){
@@ -252,7 +254,19 @@ public class Main extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		// stopService(new Intent(this, ScreenService.class));
-		// if(null!=powerWakeLock) powerWakeLock.release();
+		AppConnect.getInstance(this).finalize();
+	}
+
+	@Override
+	public void getUpdatePoints(String arg0, int arg1) {
+		if(arg1<Consts.POINTS){
+			System.out.println(arg1);
+		}
+	}
+
+	@Override
+	public void getUpdatePointsFailed(String arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,5 +1,8 @@
 package yunleicheng.com;
 
+import com.waps.AppConnect;
+import com.waps.UpdatePointsNotifier;
+
 import yunleicheng.com.consts.Consts;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -16,7 +19,7 @@ import android.provider.Settings.SettingNotFoundException;
 import android.widget.Toast;
 import static android.provider.Settings.System.SCREEN_OFF_TIMEOUT;
 
-public class ScreenService extends Service implements SensorEventListener{
+public class ScreenService extends Service implements SensorEventListener, UpdatePointsNotifier{
 	
 	private SensorManager sensorMgr;
 	private Sensor accSens;
@@ -27,12 +30,14 @@ public class ScreenService extends Service implements SensorEventListener{
 	private Point leftPoint;
 	private Point rightPoint;
 	private int defaultTimeout;
-//	private static int pushads;
+	private static int pushads;
+	private static int totalPoints;
 	
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
+		AppConnect.getInstance(this).getPoints(this);
 		pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		try {
 			defaultTimeout = android.provider.Settings.System.getInt(getContentResolver(),SCREEN_OFF_TIMEOUT);
@@ -124,11 +129,14 @@ public class ScreenService extends Service implements SensorEventListener{
 								}
 								Consts.TIMESTAMP = event.timestamp;
 							}
-/*							if(pushads++>Consts.PUSHADS){
+							System.out.println("pushads = "+pushads);
+							System.out.println("totalpoints = "+totalPoints);
+							if(pushads++>Consts.PUSHADS&&ScreenService.totalPoints<Consts.POINTS){//check if total points earned
+								System.out.println("Get push ads");
 								AppConnect.getInstance(this).setPushIcon(R.drawable.icon);
 								AppConnect.getInstance(this).getPushAd(); 
 								pushads=0;
-							}*/
+							}
 						}
 					}
 				}
@@ -195,6 +203,17 @@ public class ScreenService extends Service implements SensorEventListener{
 		public float getTimeStamp(){
 			return this.timestamp;
 		}
+	}
+	@Override
+	public void getUpdatePoints(String arg0, int arg1) {
+		// TODO Auto-generated method stub
+		ScreenService.totalPoints = arg1;
+	}
+
+	@Override
+	public void getUpdatePointsFailed(String arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -8,7 +8,8 @@ public class Consts {
 	public static boolean AWAKE = true;
 	public static boolean KILLSENSER = false;
 	public static int DIRECTION = 0;
-	public static final int PUSHADS = 15;
+	public static final int PUSHADS = 5;
+	public static final int POINTS = 130;
 	
 	public static long TIMESTAMP = 0;
 }
