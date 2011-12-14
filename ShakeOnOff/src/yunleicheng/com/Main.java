@@ -207,6 +207,19 @@ public class Main extends Activity {
 				wlEditor.putBoolean("wl", isChecked);
 				wlEditor.commit();
 				Consts.AWAKE = settings.getBoolean("wl", false);
+				if(isChecked){
+					Dialog dlg = new AlertDialog.Builder(Main.this)
+					.setTitle(R.string.power_title)
+					.setMessage(R.string.power_message)
+					.setPositiveButton(R.string.power_button, new DialogInterface.OnClickListener(){
+
+						@Override
+						public void onClick(DialogInterface dialog, int arg1) {
+							dialog.cancel();
+						}
+					}).create();
+					dlg.show();
+				}
 			}
 			
 		});
@@ -214,6 +227,7 @@ public class Main extends Activity {
 		startService.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
+				Main.this.stopService(new Intent(Main.this, ScreenService.class));//Stop the service first
 				startService(new Intent(Main.this, ScreenService.class));
 				Toast.makeText(Main.this, R.string.start_hint, Toast.LENGTH_SHORT).show();
 				Main.this.finish();
