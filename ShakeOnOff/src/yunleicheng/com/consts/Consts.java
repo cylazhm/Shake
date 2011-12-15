@@ -10,6 +10,7 @@ public class Consts {
 	public static int DIRECTION = 0;
 	public static final int PUSHADS = 5;
 	public static final int POINTS = 130;
+	public static boolean SHOWAD = false;
 	
 	public static long TIMESTAMP = 0;
 }

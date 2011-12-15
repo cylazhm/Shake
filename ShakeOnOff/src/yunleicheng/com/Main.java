@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,9 @@ public class Main extends Activity implements UpdatePointsNotifier {
 	
 	Button startService = null;
 	Button stopService = null;
+	
+	Handler mHandler = new Handler();
+	int myPoints;
 	
 	//Create menu
 	@Override
@@ -260,7 +264,8 @@ public class Main extends Activity implements UpdatePointsNotifier {
 	@Override
 	public void getUpdatePoints(String arg0, int arg1) {
 		if(arg1<Consts.POINTS){
-			System.out.println(arg1);
+			myPoints = arg1;
+			mHandler.post(mUpdateResults);
 		}
 	}
 
@@ -269,4 +274,19 @@ public class Main extends Activity implements UpdatePointsNotifier {
 		// TODO Auto-generated method stub
 		
 	}
+	
+    Runnable mUpdateResults = new Runnable() {
+        public void run() {
+        	Dialog dlg = new AlertDialog.Builder(Main.this)
+			.setMessage("points = "+myPoints)
+			.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+
+				@Override
+				public void onClick(DialogInterface dialog, int arg1) {
+					dialog.cancel();
+				}
+			}).create();
+			dlg.show();
+        }
+    };
 }
