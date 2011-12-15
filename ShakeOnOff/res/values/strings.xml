@@ -48,6 +48,7 @@
     	<item>4 sec</item>
     </string-array> -->
     
+    <string name="yourPoints">您现有积分：</string>
     <string name="power_button">确定</string>
     <string name="power_message">打开晃动开屏会禁止手机睡眠，所有手机运行的软件都不会转入睡眠而持续消耗电量，请慎用。</string>
     <string name="power_title">耗电说明</string>

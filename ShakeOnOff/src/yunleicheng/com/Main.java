@@ -128,6 +128,8 @@ public class Main extends Activity implements UpdatePointsNotifier {
 		wl.setChecked(settings.getBoolean("wl", false));
 		Consts.AWAKE = settings.getBoolean("wl", false);
 		
+		//Get accumulated points
+		myPoints = settings.getInt("points",0);
 		
 		ampl.setOnItemSelectedListener(new OnItemSelectedListener(){
 
@@ -224,7 +226,6 @@ public class Main extends Activity implements UpdatePointsNotifier {
 					dlg.show();
 				}
 			}
-			
 		});
 
 		startService.setOnClickListener(new OnClickListener(){
@@ -244,9 +245,7 @@ public class Main extends Activity implements UpdatePointsNotifier {
 				Toast.makeText(Main.this, R.string.stop_hint, Toast.LENGTH_SHORT).show();
 			}
 		});
-		AppConnect.getInstance(this).getPoints(this);
-		LinearLayout container =(LinearLayout)findViewById(R.id.adView);
-		new AdView(this,container).DisplayAd(20);
+		AppConnect.getInstance(this).getPoints(this);//Get ads points
 	}
 	
 	private void setSpinner(Spinner s, String[] items){
@@ -272,21 +271,19 @@ public class Main extends Activity implements UpdatePointsNotifier {
 	@Override
 	public void getUpdatePointsFailed(String arg0) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Failed points = "+myPoints);
 	}
 	
     Runnable mUpdateResults = new Runnable() {
         public void run() {
-        	Dialog dlg = new AlertDialog.Builder(Main.this)
-			.setMessage("points = "+myPoints)
-			.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-
-				@Override
-				public void onClick(DialogInterface dialog, int arg1) {
-					dialog.cancel();
-				}
-			}).create();
-			dlg.show();
+        	SharedPreferences.Editor pointsEditor = settings.edit();
+        	pointsEditor.putInt("points", myPoints);
+        	pointsEditor.commit();
+        	System.out.println("points = "+myPoints);
+        	if(myPoints<Consts.POINTS){
+        		LinearLayout container =(LinearLayout)findViewById(R.id.adView);
+        		new AdView(Main.this,container).DisplayAd(20);
+        	}
         }
     };
 }
