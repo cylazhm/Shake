@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,7 +95,6 @@ public class Main extends Activity implements UpdatePointsNotifier {
 		wl = (ToggleButton)findViewById(R.id.wakelock);
 		startService = (Button)findViewById(R.id.start);
 		stopService = (Button)findViewById(R.id.stop);
-		Consts.KILLSENSER = false;
 		
 		final String[] amplItems = getResources().getStringArray(R.array.shake_amp);
 		setSpinner(ampl,amplItems);
@@ -108,28 +108,22 @@ public class Main extends Activity implements UpdatePointsNotifier {
 		final String[] intervalItems = getResources().getStringArray(R.array.shake_interval);
 		setSpinner(interval,intervalItems);
 		
-		settings = this.getPreferences(MODE_PRIVATE);
+		//Load parameters from preferences
+		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		
-		ampl.setSelection(settings.getInt("ampl", 1), false);
-		final int[] ThresholdMap = {12,8,4};//amplitude of shake
-		Consts.THRESHOLD = ThresholdMap[settings.getInt("ampl",1)];
+		ampl.setSelection(settings.getInt(Consts.AMPL, 1), false);
 		
-		speed.setSelection(settings.getInt("speed", 3), false);
-		final int[] speedMap = {80000000,90000000,150000000,600000000};//speed of shake - 0.1,0.2,0.3,0.4 seconds
-		Consts.INTERVAL = speedMap[settings.getInt("speed",3)];
 		
-		direction.setSelection(settings.getInt("direction", 0), false);
-		Consts.DIRECTION = settings.getInt("direciton", 0);
+		speed.setSelection(settings.getInt(Consts.SPEED, 3), false);
 		
-		interval.setSelection(settings.getInt("interval", 0), false);
-		final int[] intervalMap = {1000000,2000000,3000000,4000000};//speed of shake - 0.1,0.2,0.3,0.4 seconds
-		Consts.NOACTION = intervalMap[settings.getInt("interval", 1)];
+		direction.setSelection(settings.getInt(Consts.DIRECT, 0), false);
 		
-		wl.setChecked(settings.getBoolean("wl", false));
-		Consts.AWAKE = settings.getBoolean("wl", false);
+		interval.setSelection(settings.getInt(Consts.INTERVAL, 0), false);
+		
+		wl.setChecked(settings.getBoolean(Consts.WL, false));
 		
 		//Get accumulated points
-		myPoints = settings.getInt("points",0);
+		myPoints = settings.getInt(Consts.POINTSAVED,0);
 		
 		ampl.setOnItemSelectedListener(new OnItemSelectedListener(){
 
@@ -137,9 +131,8 @@ public class Main extends Activity implements UpdatePointsNotifier {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				SharedPreferences.Editor amplEditor = settings.edit();
-				amplEditor.putInt("ampl", arg2);
+				amplEditor.putInt(Consts.AMPL, arg2);
 				amplEditor.commit();
-				Consts.THRESHOLD = ThresholdMap[settings.getInt("ampl",1)];
 			}
 
 			@Override
@@ -155,9 +148,8 @@ public class Main extends Activity implements UpdatePointsNotifier {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				SharedPreferences.Editor speedEditor = settings.edit();
-				speedEditor.putInt("speed", arg2);
+				speedEditor.putInt(Consts.SPEED, arg2);
 				speedEditor.commit();
-				Consts.INTERVAL = speedMap[settings.getInt("speed",3)];
 			}
 
 			@Override
@@ -173,9 +165,8 @@ public class Main extends Activity implements UpdatePointsNotifier {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				SharedPreferences.Editor directionEditor = settings.edit();
-				directionEditor.putInt("direction", arg2);
+				directionEditor.putInt(Consts.DIRECT, arg2);
 				directionEditor.commit();
-				Consts.DIRECTION = settings.getInt("direciton", 0);
 			}
 
 			@Override
@@ -191,9 +182,8 @@ public class Main extends Activity implements UpdatePointsNotifier {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				SharedPreferences.Editor intervalEditor = settings.edit();
-				intervalEditor.putInt("interval", arg2);
+				intervalEditor.putInt(Consts.INTERVAL, arg2);
 				intervalEditor.commit();
-				Consts.NOACTION = intervalMap[settings.getInt("interval", 1)];
 			}
 
 			@Override
@@ -209,9 +199,8 @@ public class Main extends Activity implements UpdatePointsNotifier {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				SharedPreferences.Editor wlEditor = settings.edit();
-				wlEditor.putBoolean("wl", isChecked);
+				wlEditor.putBoolean(Consts.WL, isChecked);
 				wlEditor.commit();
-				Consts.AWAKE = settings.getBoolean("wl", false);
 				if(isChecked){
 					Dialog dlg = new AlertDialog.Builder(Main.this)
 					.setTitle(R.string.power_title)
@@ -240,7 +229,9 @@ public class Main extends Activity implements UpdatePointsNotifier {
 		stopService.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Consts.KILLSENSER = true;
+				SharedPreferences.Editor wlEditor = settings.edit();
+				wlEditor.putBoolean(Consts.KILLSENSOR, true);
+				wlEditor.commit();
 				Main.this.stopService(new Intent(Main.this, ScreenService.class));
 				Toast.makeText(Main.this, R.string.stop_hint, Toast.LENGTH_SHORT).show();
 			}

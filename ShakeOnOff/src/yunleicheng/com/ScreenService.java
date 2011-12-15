@@ -9,12 +9,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.provider.Settings.SettingNotFoundException;
 import android.widget.Toast;
 import static android.provider.Settings.System.SCREEN_OFF_TIMEOUT;
@@ -33,10 +35,41 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 	private static int pushads;
 	private static int totalPoints;
 	
+	//Preference parameters
+	private SharedPreferences settings;
+	private boolean awake;
+	private int threshold;
+	private int direction;
+	private int noaction;
+	private int speed;
+	
+	
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
+		
+		//obtain the preference settings
+		//Preference parameters
+		settings = PreferenceManager.getDefaultSharedPreferences(this);
+		final int[] intervalMap = {1000000,2000000,3000000,4000000};//No actions - 0.1,0.2,0.3,0.4 seconds
+		final int[] ThresholdMap = {12,8,4};//amplitude of shake
+		final int[] speedMap = {80000000,90000000,150000000,600000000};//speed of shake - 0.1,0.2,0.3,0.4 seconds
+		
+		awake = settings.getBoolean(Consts.WL, false);
+		threshold = ThresholdMap[settings.getInt(Consts.AMPL, 1)];
+		direction = settings.getInt(Consts.DIRECT, 0);
+		noaction = intervalMap[settings.getInt(Consts.INTERVAL, 0)];
+		speed = speedMap[settings.getInt(Consts.SPEED, 3)];
+		
+		
+		System.out.println("awake = "+awake);
+		System.out.println("threshold = "+threshold);
+		System.out.println("direction = "+direction);
+		System.out.println("noaction = "+noaction);
+		System.out.println("speed = "+speed);
+		
+		
 		AppConnect.getInstance(this).getPoints(this);
 		pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		try {
@@ -53,7 +86,7 @@ public class ScreenService extends Service implements SensorEventListener, Updat
         boolean support = sensorMgr.registerListener(this, accSens, SensorManager.SENSOR_DELAY_UI);
         if(!support)	Toast.makeText(ScreenService.this, this.getResources().getText(R.string.notSupport), Toast.LENGTH_SHORT).show();
         
-        if(Consts.AWAKE){
+        if(awake){
 	        keepRunning = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Screen OnOff");
 	        keepRunning.acquire();
 	        Notification note=new Notification(R.drawable.icon,
@@ -80,7 +113,10 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 		super.onDestroy();
 		if(null!=powerWakeLock&&defaultTimeout<=0) powerWakeLock.release();
 		if(null!=keepRunning)	keepRunning.release();
-		if(Consts.KILLSENSER){
+		
+		boolean k = settings.getBoolean(Consts.KILLSENSOR, false);
+		
+		if(k){
 			sensorMgr.unregisterListener(this, accSens);
 			this.stopForeground(true);
 		}
@@ -109,11 +145,11 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 		// TODO Auto-generated method stub
 		float x = event.values[0];
 		float time = event.timestamp;
-		if(x>Consts.THRESHOLD||x<Consts.THRESHOLD){//check left point and right point to determine if we need to lock screen
-			if(leftPoint.getX()>Consts.THRESHOLD&&rightPoint.getX()<-Consts.THRESHOLD){
-				if(Consts.DIRECTION==0){
+		if(x>threshold||x<threshold){//check left point and right point to determine if we need to lock screen
+			if(leftPoint.getX()>threshold&&rightPoint.getX()<-threshold){
+				if(direction==0){
 					if(rightPoint.getTimeStamp()>leftPoint.getTimeStamp())	{
-						if(event.timestamp-Consts.TIMESTAMP>Consts.NOACTION*1000){
+						if(event.timestamp-Consts.TIMESTAMP>noaction*1000){
 							if(pm.isScreenOn()){
 									Intent callIntent = new Intent(Intent.ACTION_CALL);  
 									callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
@@ -140,9 +176,9 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 						}
 					}
 				}
-				else if(Consts.DIRECTION==1){
+				else if(direction==1){
 					if(rightPoint.getTimeStamp()<leftPoint.getTimeStamp()){
-						if(event.timestamp-Consts.TIMESTAMP>Consts.NOACTION*1000)
+						if(event.timestamp-Consts.TIMESTAMP>noaction*1000)
 							if(pm.isScreenOn()){
 									Intent callIntent = new Intent(Intent.ACTION_CALL);  
 									callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
@@ -160,30 +196,30 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 							}
 					}
 				}
-				else if(Consts.DIRECTION==3){
+				else if(direction==3){
 					
 				}
-				else if(Consts.DIRECTION==4){
+				else if(direction==4){
 					
 				}
 			}
 		}
 		
-		if(x>Consts.THRESHOLD){
+		if(x>threshold){
 			leftPoint.setX(x);
 			leftPoint.setTimeStamp(time);
-		}else if(x<-Consts.THRESHOLD){
+		}else if(x<-threshold){
 			rightPoint.setX(x);
 			rightPoint.setTimeStamp(time);
 		}
 
 	
-		if((leftPoint.getX()>Consts.THRESHOLD)&&(event.timestamp-leftPoint.getTimeStamp())>Consts.INTERVAL){
+		if((leftPoint.getX()>threshold)&&(event.timestamp-leftPoint.getTimeStamp())>speed){
 			leftPoint.setTimeStamp(event.timestamp);
 			leftPoint.setX(0);
 		}
 		
-		if((rightPoint.getX()<-Consts.THRESHOLD)&&(event.timestamp-rightPoint.getTimeStamp())>Consts.INTERVAL){
+		if((rightPoint.getX()<-threshold)&&(event.timestamp-rightPoint.getTimeStamp())>speed){
 			rightPoint.setTimeStamp(event.timestamp);
 			rightPoint.setX(0);
 		}
