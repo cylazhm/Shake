@@ -82,8 +82,9 @@ public class Main extends Activity implements UpdatePointsNotifier {
 				System.out.println("points = "+points);
 				if(points<Consts.ADSPOINTS){
 					Dialog dlg = new AlertDialog.Builder(Main.this)
-					.setMessage("您现有"+points+"积分,去除广告需要"+Consts.ADSPOINTS+"积分。请下载安装推荐应用获得更多积分。")
-					.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+//					.setMessage("您现有"+points+"积分,去除广告需要"+Consts.ADSPOINTS+"积分。请下载安装推荐应用获得更多积分。")
+					.setMessage("You now have "+points+" points. To remove ads, you need "+Consts.ADSPOINTS+" points。Please download and install recommended apps to earn more points.")
+					.setPositiveButton("OK", new DialogInterface.OnClickListener(){
 	
 						@Override
 						public void onClick(DialogInterface dialog, int arg1) {

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ShakeOnOff</string>
-<!--     
+	<string name="adRemovedAlready">You have removed Ads. No need to remove again.</string>
+    <string name="adRemoved">Congratulations, ads removed. Points deducted.</string>
+    <string name="menu2">Remove Ads</string>
+    <string name="yourPoints">You have points:</string>
+    <string name="power_button">OK</string>
+    <string name="power_message">Switching this on will prevent your mobile to sleep. All background applications will consume power. Please use with caution.</string>
+    <string name="power_title">Power hint</string>
 	<string name="uninstall_button">OK</string>
-	<string name="uninstall_message"></string>
+	<string name="uninstall_message">To remove this application, please click "menu->setting->security->select device administrators" on desktop. Uncheck ShakeOnOff.</string>
 	<string name="uninstall_title">Uninstall Explaination</string>
-	<string name="menu0">Uninstall Explaination</string>
+	<string name="menu0">Uninstall</string>
+	<string name="menu1">Other Apps</string>
 	<string name="amp_title">Amplitude</string>
     <string name="amp_detail">The amplitude of shake</string>
     <string name="speed_title">Speed</string>
@@ -46,10 +53,10 @@
     	<item>2 sec</item>
     	<item>3 sec</item>
     	<item>4 sec</item>
-    </string-array> -->
+    </string-array>
 
     
-    <string name="adRemovedAlready">您已去除广告，不需再次去除。</string>
+    <!--<string name="adRemovedAlready">您已去除广告，不需再次去除。</string>
     <string name="adRemoved">恭喜，去除广告成功，积分已扣除。</string>
     <string name="menu2">去广告</string>
     <string name="yourPoints">您现有积分：</string>
@@ -101,5 +108,5 @@
     	<item>2秒</item>
     	<item>3秒</item>
     	<item>4秒</item>
-    </string-array>
+    </string-array>-->
 </resources>
