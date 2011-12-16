@@ -14,6 +14,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -28,9 +29,10 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 	private PowerManager pm;
 	private PowerManager.WakeLock powerWakeLock;
 	private PowerManager.WakeLock keepRunning;
+	Handler mHandler = new Handler();
 	
-	private Point leftPoint;
-	private Point rightPoint;
+	private static Point leftPoint;
+	private static Point rightPoint;
 	private int defaultTimeout;
 	private static int pushads;
 	private static int totalPoints;
@@ -61,14 +63,6 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 		direction = settings.getInt(Consts.DIRECT, 0);
 		noaction = intervalMap[settings.getInt(Consts.INTERVAL, 0)];
 		speed = speedMap[settings.getInt(Consts.SPEED, 3)];
-		
-		
-		System.out.println("awake = "+awake);
-		System.out.println("threshold = "+threshold);
-		System.out.println("direction = "+direction);
-		System.out.println("noaction = "+noaction);
-		System.out.println("speed = "+speed);
-		
 		
 		AppConnect.getInstance(this).getPoints(this);
 		pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -113,11 +107,11 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 		super.onDestroy();
 		if(null!=powerWakeLock&&defaultTimeout<=0) powerWakeLock.release();
 		if(null!=keepRunning)	keepRunning.release();
+		sensorMgr.unregisterListener(this, accSens);
 		
 		boolean k = settings.getBoolean(Consts.KILLSENSOR, false);
 		
 		if(k){
-			sensorMgr.unregisterListener(this, accSens);
 			this.stopForeground(true);
 		}
 	}
@@ -145,7 +139,7 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 		// TODO Auto-generated method stub
 		float x = event.values[0];
 		float time = event.timestamp;
-		if(x>threshold||x<threshold){//check left point and right point to determine if we need to lock screen
+		if(x>threshold||x<-threshold){//check left point and right point to determine if we need to lock screen
 			if(leftPoint.getX()>threshold&&rightPoint.getX()<-threshold){
 				if(direction==0){
 					if(rightPoint.getTimeStamp()>leftPoint.getTimeStamp())	{
@@ -165,10 +159,7 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 								}
 								Consts.TIMESTAMP = event.timestamp;
 							}
-							System.out.println("pushads = "+pushads);
-							System.out.println("totalpoints = "+totalPoints);
-							if(pushads++>Consts.PUSHADS&&ScreenService.totalPoints<Consts.POINTS){//check if total points earned
-								System.out.println("Get push ads");
+							if(pushads++>Consts.PUSHADS&&settings.getBoolean(Consts.SHOWADS, true)){//check if total points earned
 								AppConnect.getInstance(this).setPushIcon(R.drawable.icon);
 								AppConnect.getInstance(this).getPushAd(); 
 								pushads=0;
@@ -212,7 +203,6 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 			rightPoint.setX(x);
 			rightPoint.setTimeStamp(time);
 		}
-
 	
 		if((leftPoint.getX()>threshold)&&(event.timestamp-leftPoint.getTimeStamp())>speed){
 			leftPoint.setTimeStamp(event.timestamp);
@@ -244,6 +234,7 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 	public void getUpdatePoints(String arg0, int arg1) {
 		// TODO Auto-generated method stub
 		ScreenService.totalPoints = arg1;
+		mHandler.post(mUpdateResults);
 	}
 
 	@Override
@@ -251,5 +242,13 @@ public class ScreenService extends Service implements SensorEventListener, Updat
 		// TODO Auto-generated method stub
 		
 	}
+	
+	Runnable mUpdateResults = new Runnable() {
+        public void run() {
+        	SharedPreferences.Editor pointsEditor = settings.edit();
+        	pointsEditor.putInt(Consts.POINTSAVED, ScreenService.totalPoints);
+        	pointsEditor.commit();
+        }
+    };
 
 }

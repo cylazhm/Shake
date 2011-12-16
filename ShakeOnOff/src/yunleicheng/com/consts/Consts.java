@@ -3,8 +3,7 @@ package yunleicheng.com.consts;
 public class Consts {
 	public static final int RESULT_ENABLE = 1;
 	public static final int PUSHADS = 5;
-	public static final int POINTS = 130;
-	public static boolean SHOWAD = false;
+	public static final int ADSPOINTS = 100;
 	
 	public static long TIMESTAMP = 0;
 	
@@ -16,4 +15,5 @@ public class Consts {
 	public static final String WL = "wl";
 	public static final String POINTSAVED = "points";
 	public static final String KILLSENSOR = "killsensor";
+	public static final String SHOWADS = "showads";
 }

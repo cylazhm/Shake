@@ -48,6 +48,7 @@ public class Main extends Activity implements UpdatePointsNotifier {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0,1,1,R.string.menu0);
 		menu.add(0,2,2,R.string.menu1);
+		menu.add(0,3,3,R.string.menu2);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -73,8 +74,34 @@ public class Main extends Activity implements UpdatePointsNotifier {
 			}).create();
 			dlg.show();
 		}
-		
-		else{
+		else if(item.getItemId()==3){//remove Ads
+			if(!settings.getBoolean(Consts.SHOWADS, true)){
+				Toast.makeText(this, R.string.adRemovedAlready, Toast.LENGTH_SHORT).show();
+			}else{
+				int points = settings.getInt(Consts.POINTSAVED, 0);
+				System.out.println("points = "+points);
+				if(points<Consts.ADSPOINTS){
+					Dialog dlg = new AlertDialog.Builder(Main.this)
+					.setMessage("您现有"+points+"积分,去除广告需要"+Consts.ADSPOINTS+"积分。请下载安装推荐应用获得更多积分。")
+					.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+	
+						@Override
+						public void onClick(DialogInterface dialog, int arg1) {
+							dialog.cancel();
+							AppConnect.getInstance(Main.this).showOffers(Main.this);
+						}
+					}).create();
+					dlg.show();
+				}else{
+					AppConnect.getInstance(this).spendPoints(Consts.ADSPOINTS, this);
+					SharedPreferences.Editor Editor = settings.edit();
+					Editor.putInt(Consts.POINTSAVED, points-Consts.ADSPOINTS);
+					Editor.putBoolean(Consts.SHOWADS, false);
+					Editor.commit();
+					Toast.makeText(this, R.string.adRemoved, Toast.LENGTH_SHORT).show();
+				}
+			}
+		}else{
 			AppConnect.getInstance(this).showOffers(this);
 		}
 
@@ -237,6 +264,11 @@ public class Main extends Activity implements UpdatePointsNotifier {
 			}
 		});
 		AppConnect.getInstance(this).getPoints(this);//Get ads points
+		
+		if(settings.getBoolean(Consts.SHOWADS, true)){
+			LinearLayout container =(LinearLayout)findViewById(R.id.adView);
+			new AdView(Main.this,container).DisplayAd(20);
+		}
 	}
 	
 	private void setSpinner(Spinner s, String[] items){
@@ -253,10 +285,8 @@ public class Main extends Activity implements UpdatePointsNotifier {
 
 	@Override
 	public void getUpdatePoints(String arg0, int arg1) {
-		if(arg1<Consts.POINTS){
-			myPoints = arg1;
-			mHandler.post(mUpdateResults);
-		}
+		myPoints = arg1;
+		mHandler.post(mUpdateResults);
 	}
 
 	@Override
@@ -268,13 +298,8 @@ public class Main extends Activity implements UpdatePointsNotifier {
     Runnable mUpdateResults = new Runnable() {
         public void run() {
         	SharedPreferences.Editor pointsEditor = settings.edit();
-        	pointsEditor.putInt("points", myPoints);
+        	pointsEditor.putInt(Consts.POINTSAVED, myPoints);
         	pointsEditor.commit();
-        	System.out.println("points = "+myPoints);
-        	if(myPoints<Consts.POINTS){
-        		LinearLayout container =(LinearLayout)findViewById(R.id.adView);
-        		new AdView(Main.this,container).DisplayAd(20);
-        	}
         }
     };
 }

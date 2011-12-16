@@ -47,7 +47,11 @@
     	<item>3 sec</item>
     	<item>4 sec</item>
     </string-array> -->
+
     
+    <string name="adRemovedAlready">您已去除广告，不需再次去除。</string>
+    <string name="adRemoved">恭喜，去除广告成功，积分已扣除。</string>
+    <string name="menu2">去广告</string>
     <string name="yourPoints">您现有积分：</string>
     <string name="power_button">确定</string>
     <string name="power_message">打开晃动开屏会禁止手机睡眠，所有手机运行的软件都不会转入睡眠而持续消耗电量，请慎用。</string>
