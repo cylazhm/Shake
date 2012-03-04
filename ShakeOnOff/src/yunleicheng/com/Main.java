@@ -72,16 +72,10 @@ public class Main extends Activity {
 			message = R.string.power_message;
 			button = R.string.power_button;
 		}else{
-			if(adsRemoved){
-				title = R.string.adsRemovedTitle;
-				message = R.string.adsRemoved;
-				button = R.string.power_button;
-			}else{
+			if(!adsRemoved){
 				try {
-					// 查询积分示例
 					int points = YoumiPointsManager
 							.queryPoints(this);
-					System.out.println("----------------------------"+points);
 					if(points>=Consts.REMOVE_AD_POINTS){
 						YoumiPointsManager.spendPoints(Main.this,
 								Consts.REMOVE_AD_POINTS);
@@ -100,8 +94,15 @@ public class Main extends Activity {
 					}
 	
 				} catch (Exception e) {
-					Toast.makeText(this, R.string.failGetPoints, Toast.LENGTH_SHORT).show();
+					title = R.string.failGetPoints;
+					message = R.string.failGetPoints;
+					button = R.string.power_button;
 				}
+			}
+			if(adsRemoved){
+				title = R.string.adsRemovedTitle;
+				message = R.string.adsRemoved;
+				button = R.string.power_button;
 			}
 		}
 		
