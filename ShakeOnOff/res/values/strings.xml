@@ -56,6 +56,7 @@
     <string name="uninstall_title">卸载说明</string>
     <string name="menu0">卸载说明</string>
     <string name="menu1">耗电说明</string>
+    <string name="menu2">去广告</string>
     <string name="amp_title">幅度</string>
     <string name="amp_detail">晃动的幅度大小</string>
     <string name="speed_title">速度</string>
@@ -72,6 +73,10 @@
     <string name="stop_hint">ShakeOnOff已停止</string>
     <string name="serviceHint">点击停止按钮关闭ShakeOnOff</string>
     <string name="notSupport">此程序需要加速传感器</string>
+    <string name="failGetPoints">查询积分失败</string>
+    <string name="pointsTitle">积分不足</string>
+    <string name="pointsNow">您现有积分为</string>
+    <string name="getMorePoints">请下载推荐应用获得更多积分</string>
     
     <string-array name="shake_amp">
     	<item>大</item>

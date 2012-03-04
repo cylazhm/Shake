@@ -2,6 +2,7 @@ package yunleicheng.com;
 
 import yunleicheng.com.consts.Consts;
 import net.youmi.android.AdManager;
+import net.youmi.android.appoffers.YoumiPointsManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -43,6 +44,7 @@ public class Main extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0,1,1,R.string.menu0);
 		menu.add(0,2,2,R.string.menu1);
+		menu.add(0,3,3,R.string.menu2);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -58,10 +60,26 @@ public class Main extends Activity {
 			button = R.string.uninstall_button;
 		}
 		
-		else{
+		else if(item.getItemId()==2){
 			title = R.string.power_title;
 			message = R.string.power_message;
 			button = R.string.power_button;
+		}else{
+			try {
+				// 查询积分示例
+				int points = YoumiPointsManager
+						.queryPoints(this);
+				if(points>=100){
+					
+				}else{
+					title = R.string.pointsTitle;
+					message = R.string.pointsNow+points+R.string.getMorePoints;
+					button = R.string.power_button;
+				}
+
+			} catch (Exception e) {
+				Toast.makeText(this, R.string.failGetPoints, Toast.LENGTH_SHORT).show();
+			}
 		}
 		
 		Dialog dlg = new AlertDialog.Builder(Main.this)
