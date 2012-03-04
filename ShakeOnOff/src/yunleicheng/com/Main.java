@@ -2,6 +2,7 @@ package yunleicheng.com;
 
 import yunleicheng.com.consts.Consts;
 import net.youmi.android.AdManager;
+import net.youmi.android.AdView;
 import net.youmi.android.appoffers.YoumiOffersManager;
 import net.youmi.android.appoffers.YoumiPointsManager;
 import android.app.Activity;
@@ -21,6 +22,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -37,10 +40,11 @@ public class Main extends Activity {
 	
 	Button startService = null;
 	Button stopService = null;
+	LinearLayout layout = null;
 	
-/*	static{
+	static{
 		AdManager.init(Consts.YOUMI_ID, Consts.YOUMI_PASS, 30, false);
-	}*/
+	}
 	
 	//Create menu
 	@Override
@@ -69,24 +73,29 @@ public class Main extends Activity {
 			button = R.string.power_button;
 		}else{
 			if(adsRemoved){
-				title = R.string.empty;
+				title = R.string.adsRemovedTitle;
 				message = R.string.adsRemoved;
-				button = R.string.empty;
+				button = R.string.power_button;
 			}else{
 				try {
 					// 查询积分示例
 					int points = YoumiPointsManager
 							.queryPoints(this);
-					if(points>=100){
+					System.out.println("----------------------------"+points);
+					if(points>=Consts.REMOVE_AD_POINTS){
 						YoumiPointsManager.spendPoints(Main.this,
 								Consts.REMOVE_AD_POINTS);
 						SharedPreferences.Editor amplEditor = settings.edit();
 						amplEditor.putBoolean("removeAds", true);
 						amplEditor.commit();
 						adsRemoved = true;
+						if(null!=layout){
+							layout.removeAllViews();
+							
+						}
 					}else{
 						title = R.string.pointsTitle;
-						message = R.string.pointsNow+points+R.string.getMorePoints;
+						message = R.string.getMorePoint;
 						button = R.string.power_button;
 					}
 	
@@ -104,7 +113,7 @@ public class Main extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int arg1) {
 				dialog.cancel();
-				if(item.getItemId()==3){
+				if(item.getItemId()==3&&!adsRemoved){
 					YoumiOffersManager.showOffers(Main.this,
 							YoumiOffersManager.TYPE_REWARD_OFFERS);
 				}
@@ -121,7 +130,6 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 		
 		YoumiOffersManager.init(Main.this,Consts.YOUMI_ID,Consts.YOUMI_PASS);
-		AdManager.init(Consts.YOUMI_ID, Consts.YOUMI_PASS, 30, false);
 		
 		ampl = (Spinner)findViewById(R.id.amplitude);
 		speed = (Spinner)findViewById(R.id.speed);
@@ -165,6 +173,14 @@ public class Main extends Activity {
 		Consts.AWAKE = settings.getBoolean("wl", false);
 		
 		adsRemoved = settings.getBoolean("removeAds", false);
+		
+		if(!adsRemoved){
+			//Add YOUMI ads on the top
+			AdView adView = new AdView(this);
+			layout = (LinearLayout)findViewById(R.id.adView);
+			LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+			layout.addView(adView, params);
+		}
 		
 		
 		ampl.setOnItemSelectedListener(new OnItemSelectedListener(){

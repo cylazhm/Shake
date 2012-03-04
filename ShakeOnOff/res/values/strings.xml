@@ -75,10 +75,9 @@
     <string name="notSupport">此程序需要加速传感器</string>
     <string name="failGetPoints">查询积分失败</string>
     <string name="pointsTitle">积分不足</string>
-    <string name="pointsNow">您现有积分为</string>
-    <string name="getMorePoints">请下载推荐应用获得更多积分</string>
-    <string name="adsRemoved">广告已去除</string>
-    <string name="empty"></string>
+    <string name="getMorePoint">去除广告需要50积分，您积分不足，请下载推荐应用获得更多积分</string>
+    <string name="adsRemovedTitle">广告已去除</string>
+    <string name="adsRemoved">您好，广告已经去除，感谢使用ShakeOnOff。如有问题，请联系作者：yunlei.cheng@gmail.com</string>
     
     <string-array name="shake_amp">
     	<item>大</item>

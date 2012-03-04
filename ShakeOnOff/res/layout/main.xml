@@ -8,13 +8,9 @@
     android:layout_width="fill_parent"
     android:id="@+id/main"
     android:layout_height="fill_parent">
-    <net.youmi.android.AdView
-		android:id="@+id/adView"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		umadsdk:textColor="#ffffff"
-		umadsdk:backgroundColor="#4076AA"
-		umadsdk:backgroundTransparent="155"/>
+    <LinearLayout android:id="@+id/adView" android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+	</LinearLayout>
     <TextView
         android:background="#888"
         android:id="@+id/label"

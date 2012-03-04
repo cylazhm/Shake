@@ -26,7 +26,10 @@
 		</receiver>
 	<activity android:name="net.youmi.android.AdActivity"
 		android:configChanges="keyboard|keyboardHidden|orientation" />
-	<meta-data android:name="YOUMI_CHANNEL" android:value="10010"></meta-data>
+	<activity android:configChanges="keyboard|keyboardHidden|orientation"
+		android:name="net.youmi.android.appoffers.YoumiOffersActivity" >
+	</activity>
+	<meta-data android:name="YOUMI_CHANNEL" android:value="10030"></meta-data>
 	</application>
 	<uses-sdk android:minSdkVersion="8" />
 
@@ -38,6 +41,8 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE">
 	</uses-permission>
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION">
+	</uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE">
 	</uses-permission>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE">
 	</uses-permission>
