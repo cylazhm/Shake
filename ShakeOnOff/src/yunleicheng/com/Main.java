@@ -2,6 +2,7 @@ package yunleicheng.com;
 
 import yunleicheng.com.consts.Consts;
 import net.youmi.android.AdManager;
+import net.youmi.android.appoffers.YoumiOffersManager;
 import net.youmi.android.appoffers.YoumiPointsManager;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,12 +33,14 @@ public class Main extends Activity {
 	ToggleButton wl = null;
 	SharedPreferences settings = null;
 	
+	boolean adsRemoved = false;
+	
 	Button startService = null;
 	Button stopService = null;
 	
-	static{
-		AdManager.init("a8b65eb7305a6bbc", "4ef84ff66cd340f7", 30, false);
-	}
+/*	static{
+		AdManager.init(Consts.YOUMI_ID, Consts.YOUMI_PASS, 30, false);
+	}*/
 	
 	//Create menu
 	@Override
@@ -50,7 +53,7 @@ public class Main extends Activity {
 	
 	//Create menu click listener
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 		int title = 0;
 		int message = 0;
 		int button = 0;
@@ -65,20 +68,31 @@ public class Main extends Activity {
 			message = R.string.power_message;
 			button = R.string.power_button;
 		}else{
-			try {
-				// 查询积分示例
-				int points = YoumiPointsManager
-						.queryPoints(this);
-				if(points>=100){
-					
-				}else{
-					title = R.string.pointsTitle;
-					message = R.string.pointsNow+points+R.string.getMorePoints;
-					button = R.string.power_button;
+			if(adsRemoved){
+				title = R.string.empty;
+				message = R.string.adsRemoved;
+				button = R.string.empty;
+			}else{
+				try {
+					// 查询积分示例
+					int points = YoumiPointsManager
+							.queryPoints(this);
+					if(points>=100){
+						YoumiPointsManager.spendPoints(Main.this,
+								Consts.REMOVE_AD_POINTS);
+						SharedPreferences.Editor amplEditor = settings.edit();
+						amplEditor.putBoolean("removeAds", true);
+						amplEditor.commit();
+						adsRemoved = true;
+					}else{
+						title = R.string.pointsTitle;
+						message = R.string.pointsNow+points+R.string.getMorePoints;
+						button = R.string.power_button;
+					}
+	
+				} catch (Exception e) {
+					Toast.makeText(this, R.string.failGetPoints, Toast.LENGTH_SHORT).show();
 				}
-
-			} catch (Exception e) {
-				Toast.makeText(this, R.string.failGetPoints, Toast.LENGTH_SHORT).show();
 			}
 		}
 		
@@ -90,6 +104,10 @@ public class Main extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int arg1) {
 				dialog.cancel();
+				if(item.getItemId()==3){
+					YoumiOffersManager.showOffers(Main.this,
+							YoumiOffersManager.TYPE_REWARD_OFFERS);
+				}
 			}
 		}).create();
 		dlg.show();
@@ -101,7 +119,10 @@ public class Main extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
+		
+		YoumiOffersManager.init(Main.this,Consts.YOUMI_ID,Consts.YOUMI_PASS);
+		AdManager.init(Consts.YOUMI_ID, Consts.YOUMI_PASS, 30, false);
+		
 		ampl = (Spinner)findViewById(R.id.amplitude);
 		speed = (Spinner)findViewById(R.id.speed);
 		direction = (Spinner)findViewById(R.id.direction);
@@ -142,6 +163,8 @@ public class Main extends Activity {
 		
 		wl.setChecked(settings.getBoolean("wl", false));
 		Consts.AWAKE = settings.getBoolean("wl", false);
+		
+		adsRemoved = settings.getBoolean("removeAds", false);
 		
 		
 		ampl.setOnItemSelectedListener(new OnItemSelectedListener(){

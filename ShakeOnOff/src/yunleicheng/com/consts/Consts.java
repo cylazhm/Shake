@@ -9,6 +9,9 @@ public class Consts {
 	public static boolean KILLSENSER = false;
 	public static int DIRECTION = 0;
 	public static final int PUSHADS = 15;
+	public static final int REMOVE_AD_POINTS = 100;
+	public static final String YOUMI_ID="a8b65eb7305a6bbc";
+	public static final String YOUMI_PASS="4ef84ff66cd340f7";
 	
 	public static long TIMESTAMP = 0;
 }

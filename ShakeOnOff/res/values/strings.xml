@@ -77,6 +77,8 @@
     <string name="pointsTitle">积分不足</string>
     <string name="pointsNow">您现有积分为</string>
     <string name="getMorePoints">请下载推荐应用获得更多积分</string>
+    <string name="adsRemoved">广告已去除</string>
+    <string name="empty"></string>
     
     <string-array name="shake_amp">
     	<item>大</item>
