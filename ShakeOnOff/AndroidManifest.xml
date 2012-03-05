@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="yunleicheng.com" android:versionCode="2" android:versionName="1.1">
+	package="yunleicheng.com" android:versionCode="3" android:versionName="1.2">
 	<application android:icon="@drawable/icon" android:label="@string/app_name"
 		android:debuggable="true">
 		<activity android:name=".Main" android:label="@string/app_name">
@@ -29,7 +29,7 @@
 	<activity android:configChanges="keyboard|keyboardHidden|orientation"
 		android:name="net.youmi.android.appoffers.YoumiOffersActivity" >
 	</activity>
-	<meta-data android:name="YOUMI_CHANNEL" android:value="10030"></meta-data>
+	<meta-data android:name="YOUMI_CHANNEL" android:value="10010"></meta-data>
 	</application>
 	<uses-sdk android:minSdkVersion="8" />
 
